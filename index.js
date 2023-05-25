@@ -7,7 +7,7 @@ const path = require("path");
 const app = express();
 const userRoute = require("./routes/users.js");
 
-app.use(expIp().getIpInfoMiddleware);
+// app.use(expIp().getIpInfoMiddleware);
 app.use(helmet());
 // app.use("/static", express.static(path.join(__dirname, "..", "static")));
 app.use(
@@ -33,7 +33,7 @@ app.set("json spaces", 2);
 
 app.get("/", function (req, res) {
   res.status(200).json({
-    your_ip: req.ipInfo,
+    your_ip: req.socket.remoteAddress,
     status: 200,
     message: "Ready To Go!",
   });
