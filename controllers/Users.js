@@ -4,7 +4,7 @@ module.exports = async (req, res) => {
   const { ip } = req.query;
   const type = req.params.type;
   if (type == "view") {
-    const old = await User.findOne({ ip });
+    const old = await User.findOne({ viewers_ip: ip });
     if (!old) {
       const newView = new User({
         viewers_ip: ip,
