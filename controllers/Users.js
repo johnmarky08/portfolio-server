@@ -10,7 +10,7 @@ module.exports = async (req, res) => {
         viewers_ip: ip,
         refresh: true,
       });
-      const savedView = newView.save();
+      newView.save();
 
       return res.status(201).json({ result: "Success!" });
     } else {
@@ -20,7 +20,7 @@ module.exports = async (req, res) => {
     const newRefresh = new User({
       refresh: true,
     });
-    const savedRefresh = newRefresh.save();
+    newRefresh.save();
 
     return res.status(201).json({ result: "Success!" });
   } else {
