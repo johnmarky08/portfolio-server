@@ -1,5 +1,5 @@
 const express = require("express");
-// const expIp = require("express-ip");
+const IP = require("ip");
 const cors = require("cors");
 const port = process.env.PORT || process.env.port || 8080;
 const helmet = require("helmet");
@@ -7,7 +7,6 @@ const path = require("path");
 const app = express();
 const userRoute = require("./routes/users.js");
 
-// app.use(expIp().getIpInfoMiddleware);
 app.use(helmet());
 // app.use("/static", express.static(path.join(__dirname, "..", "static")));
 app.use(
@@ -33,7 +32,7 @@ app.set("json spaces", 2);
 
 app.get("/", function (req, res) {
   res.status(200).json({
-    your_ip: req.socket.remoteAddress,
+    your_ip: IP.address(),
     status: 200,
     message: "Ready To Go!",
   });
