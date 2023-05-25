@@ -1,5 +1,4 @@
 const express = require("express");
-const IP = require("ip");
 const cors = require("cors");
 const port = process.env.PORT || process.env.port || 8080;
 const helmet = require("helmet");
@@ -32,7 +31,6 @@ app.set("json spaces", 2);
 
 app.get("/", function (req, res) {
   res.status(200).json({
-    your_ip: IP.address(),
     status: 200,
     message: "Ready To Go!",
   });
