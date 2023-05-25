@@ -1,13 +1,12 @@
 const express = require("express");
 const cors = require("cors");
+const mongoose = require("mongoose");
 const port = process.env.PORT || process.env.port || 8080;
 const helmet = require("helmet");
-const path = require("path");
 const app = express();
 const userRoute = require("./routes/users.js");
 
 app.use(helmet());
-// app.use("/static", express.static(path.join(__dirname, "..", "static")));
 app.use(
   helmet.contentSecurityPolicy({
     useDefaults: true,
@@ -27,7 +26,7 @@ app.use(helmet.crossOriginEmbedderPolicy({ policy: "credentialless" }));
 app.use(express.json());
 app.use(cors());
 app.set("json spaces", 2);
-// app.use("/user", userRoute);
+app.use("/user", userRoute);
 
 app.get("/", function (req, res) {
   res.status(200).json({
@@ -40,10 +39,18 @@ app.use((error, req, res, next) => {
   res.status(error.status).json({ message: error.message });
 });
 
-app.listen(port, function (err) {
-  if (err) {
-    console.error("Failure To Launch Server");
-    return;
-  }
-  console.log(`Listening On Port: ${port}`);
-});
+mongoose
+  .connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => {
+    app.listen(port, function (err) {
+      if (err) {
+        console.error("Failure To Launch Server");
+        return;
+      }
+      console.log(`Listening On Port: ${port}`);
+    });
+  })
+  .catch((error) => console.log(`${error} did not connect`));

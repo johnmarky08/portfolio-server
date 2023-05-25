@@ -4,3 +4,5 @@ const UserRoute = require("../controllers/Users.js");
 const router = express.Router();
 
 router.get("/:type", UserRoute);
+
+module.exports = router;
