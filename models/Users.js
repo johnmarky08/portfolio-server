@@ -7,7 +7,7 @@ const userSchema = new mongoose.Schema(
       default: null,
     },
     refresh: {
-      type: Boolean,
+      type: Number,
       required: true,
     },
   },

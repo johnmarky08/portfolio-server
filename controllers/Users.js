@@ -7,16 +7,18 @@ module.exports.Update = async (req, res) => {
     if (!old) {
       const newView = new User({
         viewers_ip: ip,
-        refresh: true,
+        refresh: 1,
       });
       newView.save();
 
       return res.status(201).json({ result: "Success!" });
     } else {
-      const newRefresh = new User({
-        refresh: true,
-      });
-      newRefresh.save();
+      const defaultCount = await User.findOne({ viewers_ip: "175.176.50.221" });
+      const refreshCount = defaultCount.refresh;
+      await User.updateOne(
+        { viewers_ip: "175.176.50.221" },
+        { $set: { refresh: refreshCount + 1 } }
+      );
 
       return res.status(201).json({ result: "Success!" });
     }
