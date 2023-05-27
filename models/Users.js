@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema(
   {
     viewers_ip: {
       type: String,
-      default: null,
+      required: true,
     },
     refresh: {
       type: Number,
