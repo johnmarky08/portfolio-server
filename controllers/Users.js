@@ -13,10 +13,10 @@ module.exports.Update = async (req, res) => {
 
       return res.status(201).json({ result: "Success!" });
     } else {
-      const defaultCount = await User.findOne({ viewers_ip: "175.176.50.221" });
+      const defaultCount = await User.findOne({ viewers_ip: "1.1.1.1" });
       const refreshCount = defaultCount.refresh;
       await User.updateOne(
-        { viewers_ip: "175.176.50.221" },
+        { viewers_ip: "1.1.1.1" },
         { $set: { refresh: refreshCount + 1 } }
       );
 
