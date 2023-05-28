@@ -17,9 +17,10 @@ module.exports.Update = async (req, res) => {
     } else if (type == "refresh") {
       const defaultCount = await User.findOne({ viewers_ip: "1.1.1.1" });
       const refreshCount = defaultCount.refresh;
+      const visitCount = defaultCount.visit;
       await User.updateOne(
         { viewers_ip: "1.1.1.1" },
-        { $set: { refresh: refreshCount + 1 } }
+        { $set: { refresh: refreshCount + 1, visit: visitCount } }
       );
 
       return res.status(201).json({ result: "Success!" });
