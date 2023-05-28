@@ -2,17 +2,19 @@ const User = require("../models/Users.js");
 
 module.exports.Update = async (req, res) => {
   const { ip } = req.query;
+  const { type } = req.params;
   try {
     const old = await User.findOne({ viewers_ip: ip });
     if (!old) {
       const newView = new User({
         viewers_ip: ip,
         refresh: 1,
+        visit: 1,
       });
       newView.save();
 
       return res.status(201).json({ result: "Success!" });
-    } else {
+    } else if (!type) {
       const defaultCount = await User.findOne({ viewers_ip: "1.1.1.1" });
       const refreshCount = defaultCount.refresh;
       await User.updateOne(
@@ -21,9 +23,21 @@ module.exports.Update = async (req, res) => {
       );
 
       return res.status(201).json({ result: "Success!" });
+    } else if (type == "visit") {
+      const defaultCount = await User.findOne({ viewers_ip: "1.1.1.1" });
+      const refreshCount = defaultCount.refresh;
+      const visitCount = defaultCount.visit;
+      await User.updateOne(
+        { viewers_ip: "1.1.1.1" },
+        { $set: { refresh: refreshCount + 1, visit: visitCount + 1 } }
+      );
+
+      return res.status(201).json({ result: "Success!" });
+    } else {
+      return res.status(500).json({ error, code: 400 });
     }
   } catch (error) {
-    res.status(500).json({ error, code: 400 });
+    return res.status(500).json({ error, code: 400 });
   }
 };
 
