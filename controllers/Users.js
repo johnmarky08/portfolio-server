@@ -14,7 +14,7 @@ module.exports.Update = async (req, res) => {
       newView.save();
 
       return res.status(201).json({ result: "Success!" });
-    } else if (!type) {
+    } else if (type == "refresh") {
       const defaultCount = await User.findOne({ viewers_ip: "1.1.1.1" });
       const refreshCount = defaultCount.refresh;
       await User.updateOne(
